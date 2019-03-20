@@ -1,73 +1,32 @@
-version: "3"
-services:
-  app: &base
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: "logistics-backend-app-1"
-    tty: true
-    stdin_open: true
-    volumes:
-      - .:/home/logistics
-    networks:
-      - logistics_web
-    ports:
-      - "5000:5000"
-      - "9394:9394"
-    links:
-      - postgres
-      - redis
-      - logistics-redis
-      - consul
-      - osrm
-    environment:
-      - RAILS_ENV=development
-      - FORMATION=web=1
-      - UNICORN_PROCESS_NUMBER=2
-  postgres:
-    image: camptocamp/postgres:9.6
-    container_name: "logistics-backend_postgres_1"
-    networks:
-      - logistics_web
-    ports:
-      - "5432"
-  redis:
-    image: redis
-    container_name: "logistics-backend_redis_1"
-    networks:
-      - logistics_web
-    ports:
-      - "6379"
-  logistics-redis:
-    image: redis
-    container_name: "logistics-backend_redis_2"
-    networks:
-      - logistics_web
-    ports:
-      - "6378:6379"
-  consul:
-    image: consul
-    container_name: "logistics-backend_consul_1"
-    networks:
-      - logistics_web
-    ports:
-      - "8500:8500"
-  osrm:
-    image: gcr.io/pace-configs/osrm-base-image:1.0
-    command: osrm-routed --algorithm mld gcc-states-latest.osrm
-    container_name: "logistics-backend_osrm_1"
-    networks:
-      - logistics_web
-    ports:
-      - "5008:5000"
-  prometheus:
-    image: quay.io/prometheus/prometheus
-    container_name: "logistics-backend_prometheus_1"
-    networks:
-      - logistics_web
-    ports:
-      - "9090:9090"
-volumes:
-  logistics_vol:
-networks:
-  logistics_web:
+db:
+  image: postgres
+  ports:
+    - "5432"
+ 
+redis:
+  image: redis
+  ports:
+    - "6379"
+ 
+web:
+  build: .
+  command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  volumes:
+    - .:/myapp
+  ports:
+    - "3000:3000"
+  environment:
+    - DB_USERNAME=postgres
+    - DB_PASSWORD=
+  links:
+    - db
+    # - redis
+ 
+# sidekiq:
+#   build: .
+#   command: bundle exec sidekiq
+#   links:
+#     - db
+#     - redis
+#   volumes:
+#     - .:/usr/src/service
