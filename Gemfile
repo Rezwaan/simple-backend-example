@@ -1,6 +1,9 @@
 source 'http://rubygems.org'
 
+ruby '2.3.7'
+
 gem 'rails', '3.1.1'
+gem 'git', '~> 1.3'
 gem 'pg'
 
 # Gems used only for assets and not required
