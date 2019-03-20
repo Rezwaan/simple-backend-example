@@ -13,6 +13,7 @@ COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 RUN bundle update json
 RUN bundle install -j 4
+RUN bundle exec jekyll build
  
 ADD . /myapp
 WORKDIR /myapp
