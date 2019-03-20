@@ -1,4 +1,4 @@
-FROM ruby:2.2.2
+FROM gcr.io/pace-configs/rails-base-image:1.0
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
  
 # Install RMagick
