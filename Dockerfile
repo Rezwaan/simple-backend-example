@@ -9,11 +9,9 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 # RUN apt-get install -y zlib1g-dev
 
 #RUN mkdir /myapp
-WORKDIR /tmp
 COPY Gemfile* ./
 RUN bundle update json
 RUN bundle install -j 4
-WORKDIR /home/app/webapp
  
 #ADD . /myapp
 #WORKDIR /myapp
