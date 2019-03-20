@@ -8,10 +8,12 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 # Install Nokogiri
 # RUN apt-get install -y zlib1g-dev
 
-#RUN mkdir /myapp
+RUN mkdir /myapp
+WORKDIR /tmp
+COPY Gemfile* ./myapp
 COPY Gemfile* ./
 RUN bundle update json
 RUN bundle install -j 4
  
-#ADD . /myapp
-#WORKDIR /myapp
+ADD . /myapp
+WORKDIR /myapp
