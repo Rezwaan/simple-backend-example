@@ -12,6 +12,7 @@ RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile /myapp/
 ADD Gemfile.lock /myapp/
+COPY Gemfile Gemfile
 RUN bundle update json
 RUN bundle install -j 4
  
