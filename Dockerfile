@@ -13,6 +13,7 @@ WORKDIR /tmp
 COPY Gemfile* ./
 RUN bundle update json
 RUN bundle install -j 4
+WORKDIR /home/app/webapp
  
 #ADD . /myapp
 #WORKDIR /myapp
