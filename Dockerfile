@@ -7,16 +7,12 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
  
 # Install Nokogiri
 # RUN apt-get install -y zlib1g-dev
- 
-RUN echo 'alias ll="ls -l"' >> ~/.bashrc
-COPY . .
 
 #RUN mkdir /myapp
 WORKDIR /tmp
 COPY Gemfile* ./
 RUN bundle update json
 RUN bundle install -j 4
-CMD ["./infra-config/entry_point.sh"]
  
 #ADD . /myapp
 #WORKDIR /myapp
